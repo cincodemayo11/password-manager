@@ -1,1 +1,1 @@
-A password generator, storage and reference in your cli!
+A password generator, storage and reference in your cli, coming soon!
