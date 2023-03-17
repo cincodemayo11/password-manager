@@ -4,6 +4,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <string.h>
+#include <unistd.h>
 
 void pass_gen(int N, char *sitename)
 {
@@ -55,43 +56,122 @@ void pass_gen(int N, char *sitename)
 	password[N] = '\0';
 
 	FILE *fp;
-	fp = fopen("pass.txt", "a");
+
+	if (access("pass.txt", F_OK) == -1)
+	{
+		fp = fopen("pass.txt", "w");
+		fclose(fp);
+	}
+
+	fp = fopen("pass.txt", "r");
 
 	if (fp == NULL)
 	{
-		printf("Can't open file");
+		printf("Unable to access password file\n");
 		return;
 	}
+	char line[100];
+	int found = 0;
 
-	fprintf(fp, "%s: %s\n", sitename, password);
-
+	while (fgets(line, 100, fp) != NULL)
+	{
+		if (strstr(line, sitename) != NULL)
+		{
+			printf("That site name already exists.\n");
+			found = 1;
+			break;
+		}
+	}
 	fclose(fp);
+
+	if(!found)
+	{
+		fp = fopen("pass.txt", "a");
+
+		if (fp == NULL)
+		{
+			printf("Can't write to file");
+			return;
+		}
+
+		fprintf(fp, "%s: %s\n", sitename, password);
+
+		fclose(fp);
+	}
 }
 
+void read_pass(char *sitename)
+{
+	FILE *fp;
+	char line[100];
+	int found = 0;
+
+	fp = fopen("pass.txt", "r");
+	if (fp == NULL)
+	{
+		printf("Unable to access file\n");
+	}
+	else
+	{
+		while (fgets(line, 100, fp) != NULL)
+		{
+			if (strncmp(line, sitename, strlen(sitename)) == 0 && line[strlen(sitename)] == ':')
+			{
+				printf("%s", line);
+				found = 1;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			printf("Password not found\n");
+		}
+		fclose(fp);
+	}
+}
 
 int main(int argc, char *argv[])
 {
 	int N;
 	int i = 0;
 
-	if (strcmp(argv[1], "w") == 0 && argc == 4)
+	if (strcmp(argv[1], "w") == 0)
 	{
-		for (; argv[3][i] != '\0'; i++)
+		if (argc == 4)
 		{
-			if (!isdigit(argv[3][i]))
+			for (; argv[3][i] != '\0'; i++)
 			{
-				printf("Usage: w sitename length\n");
-				return (1);
+				if (!isdigit(argv[3][i]))
+				{
+					printf("Usage: w sitename length\n");
+					return (1);
+				}
+				else
+				{
+					break;
+				}
 			}
-			else
-			{
-				break;
-			}
+			N = atoi(argv[3]);
+			pass_gen(N, argv[2]);
 		}
-		N = atoi(argv[3]);
-		pass_gen(N, argv[2]);
+		else
+		{
+			printf("Usage: w username length\n");
+			return (1);
+		}
 	}
-	
 
+	if (strcmp(argv[1], "r") == 0)
+	{
+		if (argc == 3)
+		{
+			read_pass(argv[2]);
+		}
+		else
+		{
+			printf("Usage: r sitename\n");
+		}
+	}
 	return (0);
 }
