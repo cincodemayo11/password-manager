@@ -4,12 +4,15 @@ This only works on Linux systems.
 
 ## SETUP
 1. Clone this repo.
+
 ```git clone https://github.com/cincodemayo11/password-manager.git```
 
 2. Navigate (`cd`) into the repo folder.
+
 ```cd password-manager```
 
 3. Run the passman installer by running:
+
 ```sudo ./install```
 
 ## HOW TO USE
