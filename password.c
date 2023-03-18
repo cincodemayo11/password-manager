@@ -131,6 +131,65 @@ void read_pass(char *sitename)
 	}
 }
 
+void delete_pass(char *sitename)
+{
+	FILE *fp;
+	FILE *temp;
+	char line[100];
+	int found = 0;
+	char ans;
+
+	fp = fopen("pass.txt", "r");
+
+	if (fp == NULL)
+	{
+		printf("Unable to open password file\n");
+		return;
+	}
+
+	temp = fopen("temp.txt", "w");
+	{
+		if (temp == NULL)
+		{
+			printf("Unable to make temp file\n");
+			fclose(fp);
+		}
+	}
+
+	while (fgets(line, 100, fp) != NULL)
+	{
+		if(strncmp(line, sitename, strlen(sitename)) == 0 && line[strlen(sitename)] == ':')
+		{
+			found = 1;
+		}
+		else
+		{
+			fputs(line, temp);
+		}
+	}
+	fclose(fp);
+	fclose(temp);
+
+	if(remove("pass.txt") != 0)
+	{
+		printf("Unable to delete password file\n");
+	}
+
+	if (rename("temp.txt", "pass.txt")!= 0)
+	{
+		printf("Unable to rename temporary file\n");
+	}
+
+	if (found)
+	{
+		printf("%s Password deleted successfully\n", sitename);
+	}
+	else
+	{
+		printf("Password doesn't exist\n");
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	int N;
@@ -171,6 +230,17 @@ int main(int argc, char *argv[])
 		else
 		{
 			printf("Usage: r sitename\n");
+		}
+	}
+	if (strcmp(argv[1], "x") == 0)
+	{
+		if (argc == 3)
+		{
+			delete_pass(argv[2]);
+		}
+		else
+		{
+			printf("Usage: x sitename\n");
 		}
 	}
 	return (0);
