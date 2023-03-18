@@ -24,7 +24,7 @@ This only works on Linux systems.
 
 e.g. `passman w facebook 11` will generate a strong password 11 characters long, and will be stored under the name "facebook".
 
-*Note* - You may need to use your root privileges to write a password, i.e.;
+`*Note*` - You may need to use your root privileges to write a password, i.e.;
 
 ```sudo passman w sitename passwordlength```
 
@@ -36,7 +36,7 @@ e.g. `passman w facebook 11` will generate a strong password 11 characters long,
 
 e.g. `passman r facebook` will display the password stored under the name "facebook".
 
-*Note* - You may need to use your root privileges to read a password, i.e.;
+`*Note*` - You may need to use your root privileges to read a password, i.e.;
 
 ```sudo passman r sitename```
 
@@ -48,7 +48,7 @@ e.g. `passman r facebook` will display the password stored under the name "faceb
 
 e.g. `passman x facebook` will delete the password stored under the name "facebook".
 
-Note* - You may need to use your root privileges to delete a password, i.e.;
+`*Note*` - You may need to use your root privileges to delete a password, i.e.;
 
 ```sudo passman x sitename```
 
@@ -56,4 +56,4 @@ Note* - You may need to use your root privileges to delete a password, i.e.;
 
 Feel free to report any issues or ask any questions.
 
-*God bless all frogs and may they roam and croak the Earth*
+****God bless all frogs and may they roam and croak the Earth****
