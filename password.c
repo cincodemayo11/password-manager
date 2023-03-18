@@ -199,6 +199,12 @@ int main(int argc, char *argv[])
 	int N;
 	int i = 0;
 
+	if (argc < 3)
+	{
+		printf("Usage:\nWriting: passman w sitename passwordlength\nReading: passman r sitename\nDeleting: passman x sitename\n");
+		return (1);
+	}
+
 	if (strcmp(argv[1], "w") == 0)
 	{
 		if (argc == 4)
