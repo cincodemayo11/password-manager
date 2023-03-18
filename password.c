@@ -91,7 +91,7 @@ void pass_gen(int N, char *sitename)
 
 		if (fp == NULL)
 		{
-			printf("Can't write to file");
+			printf("Can't write to file\n");
 			return;
 		}
 
