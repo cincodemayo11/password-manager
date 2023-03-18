@@ -56,14 +56,15 @@ void pass_gen(int N, char *sitename)
 	password[N] = '\0';
 
 	FILE *fp;
+	char filepath[] = "/etc/mypasswords/passman.txt";
 
-	if (access("pass.txt", F_OK) == -1)
+	if (access(filepath, F_OK) == -1)
 	{
-		fp = fopen("pass.txt", "w");
+		fp = fopen(filepath, "w");
 		fclose(fp);
 	}
 
-	fp = fopen("pass.txt", "r");
+	fp = fopen(filepath, "r");
 
 	if (fp == NULL)
 	{
@@ -86,7 +87,7 @@ void pass_gen(int N, char *sitename)
 
 	if(!found)
 	{
-		fp = fopen("pass.txt", "a");
+		fp = fopen(filepath, "a");
 
 		if (fp == NULL)
 		{
@@ -105,8 +106,9 @@ void read_pass(char *sitename)
 	FILE *fp;
 	char line[100];
 	int found = 0;
+	char filepath[] = "/etc/mypasswords/passman.txt";
 
-	fp = fopen("pass.txt", "r");
+	fp = fopen(filepath, "r");
 	if (fp == NULL)
 	{
 		printf("Unable to access file\n");
@@ -138,8 +140,10 @@ void delete_pass(char *sitename)
 	char line[100];
 	int found = 0;
 	char ans;
+	char filepath[] = "/etc/mypasswords/passman.txt";
+	char tempfile[] = "/etc/mypasswords/temppassman.txt";
 
-	fp = fopen("pass.txt", "r");
+	fp = fopen(filepath, "r");
 
 	if (fp == NULL)
 	{
@@ -147,7 +151,7 @@ void delete_pass(char *sitename)
 		return;
 	}
 
-	temp = fopen("temp.txt", "w");
+	temp = fopen(tempfile, "w");
 	{
 		if (temp == NULL)
 		{
@@ -170,12 +174,12 @@ void delete_pass(char *sitename)
 	fclose(fp);
 	fclose(temp);
 
-	if(remove("pass.txt") != 0)
+	if(remove(filepath) != 0)
 	{
 		printf("Unable to delete password file\n");
 	}
 
-	if (rename("temp.txt", "pass.txt")!= 0)
+	if (rename(tempfile, filepath)!= 0)
 	{
 		printf("Unable to rename temporary file\n");
 	}

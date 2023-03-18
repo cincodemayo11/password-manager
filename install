@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir -p /etc/mypasswords
+mkdir -p /usr/bin
+cp passman /usr/bin
+echo "Successfully installed!"
