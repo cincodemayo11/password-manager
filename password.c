@@ -6,6 +6,74 @@
 #include <string.h>
 #include <unistd.h>
 
+void pass_gen(int N, char *sitename);
+void read_pass(char *sitename);
+void delete_pass(char *sitename);
+
+int main(int argc, char *argv[])
+{
+	int N;
+	int i = 0;
+
+	if (argc < 3 || argc > 4)
+	{
+		printf("Usage:\nWriting: passman w sitename passwordlength\nReading: passman r sitename\nDeleting: passman x sitename\n");
+		return (1);
+	}
+	else
+	{
+		if (strcmp(argv[1], "w") == 0)
+		{
+			if (argc == 4)
+			{
+				for (; argv[3][i] != '\0'; i++)
+				{
+					if (!isdigit(argv[3][i]))
+					{
+						printf("Usage: w sitename length\n");
+						return (1);
+					}
+					else
+					{
+						break;
+					}
+				}
+				N = atoi(argv[3]);
+				pass_gen(N, argv[2]);
+			}
+			else
+			{
+				printf("Usage: w username length\n");
+				return (1);
+			}
+		}
+
+		if (strcmp(argv[1], "r") == 0)
+		{
+			if (argc == 3)
+			{
+				read_pass(argv[2]);
+			}
+			else
+			{
+				printf("Usage: r sitename\n");
+			}
+		}
+		if (strcmp(argv[1], "x") == 0)
+		{
+			if (argc == 3)
+			{
+				delete_pass(argv[2]);
+			}
+			else
+			{
+				printf("Usage: x sitename\n");
+			}
+		}
+	}
+	return (0);
+}
+
 void pass_gen(int N, char *sitename)
 {
 	int i = 0;
@@ -192,68 +260,4 @@ void delete_pass(char *sitename)
 	{
 		printf("Password doesn't exist\n");
 	}
-}
-
-int main(int argc, char *argv[])
-{
-	int N;
-	int i = 0;
-
-	if (argc < 3 || argc > 4)
-	{
-		printf("Usage:\nWriting: passman w sitename passwordlength\nReading: passman r sitename\nDeleting: passman x sitename\n");
-		return (1);
-	}
-	else
-	{
-		if (strcmp(argv[1], "w") == 0)
-		{
-			if (argc == 4)
-			{
-				for (; argv[3][i] != '\0'; i++)
-				{
-					if (!isdigit(argv[3][i]))
-					{
-						printf("Usage: w sitename length\n");
-						return (1);
-					}
-					else
-					{
-						break;
-					}
-				}
-				N = atoi(argv[3]);
-				pass_gen(N, argv[2]);
-			}
-			else
-			{
-				printf("Usage: w username length\n");
-				return (1);
-			}
-		}
-
-		if (strcmp(argv[1], "r") == 0)
-		{
-			if (argc == 3)
-			{
-				read_pass(argv[2]);
-			}
-			else
-			{
-				printf("Usage: r sitename\n");
-			}
-		}
-		if (strcmp(argv[1], "x") == 0)
-		{
-			if (argc == 3)
-			{
-				delete_pass(argv[2]);
-			}
-			else
-			{
-				printf("Usage: x sitename\n");
-			}
-		}
-	}
-	return (0);
 }
